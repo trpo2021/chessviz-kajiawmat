@@ -1,5 +1,6 @@
+Unfortunatly, i can't use .clang-format in dev-cpp for formating code of programm, sorry.
 ---
-Language:        Cpp
+Language:        C
 AccessModifierOffset: -4
 AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveAssignments: false
