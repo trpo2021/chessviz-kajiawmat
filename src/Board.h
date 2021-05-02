@@ -3,6 +3,7 @@
 
 void Board_Init();
 void Board();
+void Board_NULL();
 
 
 #endif

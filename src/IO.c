@@ -28,7 +28,10 @@ void Move_input(FILE *f1,char ch)
 	}
 	if(move_input!=(move / 2)+(move % 2))
 	{
-		printf("\n%i",move_input);
+		printf("\n--------------");
+		printf("Написан ход \n%i",move_input);
+		printf("\n--------------");
+		system("pause");
 		Error_Text(2);
 	}
 }

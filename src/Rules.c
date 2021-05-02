@@ -65,7 +65,7 @@ int Check_Move_Begin()
 
 int Check_Transform(char ch)
 {
-	if(Check_Massive(ch) && ch!='P')
+	if(Check_Massive(ch) && ch!='P' && ch!='K')
 	{
 		return 1;
 	}

@@ -1,4 +1,4 @@
-1. e2-e4 e7-e5
+1. Pe2-e4 e7-e5
 2. Bf1-c4 Ng8-f6
 3. Ng1-f3 Nb8-c6
 4. Nf3-g5 Qd8-e7
