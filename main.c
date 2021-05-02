@@ -5,193 +5,7 @@ char C[9][9];
 
 int ver_begin=0, gor_begin=0, ver_end=0, gor_end=0, move=1;
 char letter_fig=0, typ_move=0, transform=0, last_cut=0;
-
-
-int Module(int x)
-{
-	if(x<0)
-	{
-		x=-x;
-	}
-	return x;
-}
-
-int Check_Getc(char ch)
-{
-	if(ch!=' ' && ch!='.' && ch!='X' && ch!='#' && ch!='+' && ch!='!' && ch!='?' && ch!='\n' && ch!='\t') return 1;
-	return 0;
-}
-
-char Search_Read(FILE *f1,char ch)
-{
-	while(Check_Getc(ch)!=1) //Поиск нормального символа
-	{
-		ch=getc(f1);
-	}
-	return ch;
-}
-
-int Check_Massive(char ch)
-{
-	int i;
-	for(i=0;i<5;i++)
-	{
-		if(ch==Type_figure[i])
-		{
-			return 1;
-		}
-	}
-	return 0;
-}
-
-int Check_Gor(char ch)
-{
-	if(ch>=97 && ch<=104) return 1;
-	return 0;
-}
-
-int Check_Ver(char ch)
-{
-	if(ch>=49 && ch<=56) return 1;
-	return 0;
-}
-
-void Error_Message_Move(int move_input)
-{
-	printf("\nНомер хода указан не верно");
-	printf("\nХод №%i за ",move/2+move % 2);
-	if(move % 2)
-	{
-		printf("белых, ");
-	}
-	else
-	{
-		printf("чёрных, ");
-	}
-	printf("а написано, что он №%i",move_input);
-	exit(1);
-}
-
-void Move_input(FILE *f1,char ch)
-{
-	int move_input=0;
-	while(Check_Getc(ch))
-	{
-		move_input=move_input*10+ch-48;
-		ch=getc(f1);
-	}
-	if(move_input!=(move / 2)+(move % 2))
-	{
-		Error_Message_Move(move_input);
-	}
-}
-
-void Error_Message_Read()
-{
-	printf("\nХод №%i за ",move/2+move % 2);
-	if(move % 2)
-	{
-		printf("белых: ");
-	}
-	else
-	{
-		printf("чёрных: ");
-	}
-	printf("\nОшибка ввода данных. Исправьте её и попробуйте снова");
-	exit(1);
-}
-
-void Move_Read(FILE *f1, char ch)
-{
-	transform=0;
-	last_cut=0;
-	if(Check_Gor(ch))
-	{
-		letter_fig=Type_figure[0];
-	}
-	else
-	{
-		letter_fig=ch;
-		ch=getc(f1);
-	}
-	
-	ch=Search_Read(f1,ch);
-	if(Check_Gor(ch))
-	{
-		gor_begin=ch-96;
-		ch=getc(f1);
-	}
-	else
-	{
-		Error_Message_Read();
-	}
-	
-	ch=Search_Read(f1,ch);
-	if(Check_Ver(ch))
-	{
-		ver_begin=ch-48;
-		ch=getc(f1);
-	}
-	else
-	{
-		Error_Message_Read();
-	}
-	
-	ch=Search_Read(f1,ch);
-	if(ch=='-' || ch=='x' || ch==':')
-	{
-		typ_move=ch;
-		ch=getc(f1);
-	}
-	else
-	{
-		Error_Message_Read();
-	}
-	
-	ch=Search_Read(f1,ch);
-	if(Check_Gor(ch))
-	{
-		gor_end=ch-96;
-		ch=getc(f1);
-	}
-	else
-	{
-		Error_Message_Read();
-	}
-	
-	ch=Search_Read(f1,ch);
-	if(Check_Ver(ch))
-	{
-		ver_end=ch-48;
-		ch=getc(f1);
-	}
-	else
-	{
-		Error_Message_Read();
-	}
-	//Проверка на логическую корректность ходов
-	if((gor_begin==gor_end)&&(ver_begin==ver_end))
-	{
-		printf("Как фигура может пойти на СВОЁ же поле?");
-		exit(1);
-	}
-	
-	if(((move % 2 == 1)+(C[ver_begin][gor_begin]<=96))==1)
-	{
-		printf("Как во время хода одного цвета, можно взять фигуру другого???");
-		exit(1);
-	}
-	
-	//Заготовка для превлащения
-	if(letter_fig=='P' && (ver_end==1 || ver_end==8))
-	{
-		ch=Search_Read(f1,ch);
-		if(Check_Massive(ch) && ch!='P')
-		{
-			transform=ch;
-		}
-	}
-}
+int typ_roki=0, move_rook[4]={1,1,1,1};
 
 void Move_Write()
 {
@@ -228,6 +42,340 @@ void Move_Write()
 	printf("\n");
 	printf("\n");
 }
+
+void Roki_Write()
+{
+	int i=0;
+	printf("\nХод №%i за ",move/2+move % 2);
+	if(move % 2)
+	{
+		printf("белых: ");
+	}
+	else
+	{
+		printf("чёрных: ");
+	}
+	printf("O");
+	while(i<typ_roki)
+	{
+		printf("-O");
+		i++;
+	}
+	printf("\n\n\n\n");
+}
+
+void Error_Move()
+{
+	printf("\nСейчас ход №%i за ",move/2+move % 2);
+	if(move % 2)
+	{
+		printf("белых, ");
+	}
+	else
+	{
+		printf("чёрных, ");
+	}
+}
+
+void Error_Text(int i)
+{
+	printf("%i\n",i);
+	switch(i)
+	{
+		case 1:
+			printf("К сожалению, открыть введённый вами файл, не предоставляется возможным.");
+			break;
+			
+		case 2:
+			printf("Номер хода указан не верно");
+			Error_Move();
+			break;
+			
+		case 3:
+			Error_Move();
+			printf("\nОшибка ввода данных хода.");
+			break;
+			
+		case 4:
+			Move_Write();
+			printf("\nФигура не может походить на своё же поле.");
+			break;
+			
+		case 5:
+			Move_Write();
+			printf("\nНевозможно взять фигуру с того поля, где она не указана.");
+			break;
+			
+		case 6:
+			Move_Write();
+			printf("На поле %c%c фигура %c не стоит.",gor_begin+96,ver_begin+48,letter_fig+32*((move+1)%2));
+			break;
+
+		case 7:
+			Error_Move();
+			printf("Неправильна записана рокировка: многовато или маловато повторений символов \'-O\'.");
+			break;
+			
+		case 8:
+			Move_Write();
+			printf("\nФигура не может встать на занятое фигурой %c поле %c%c.",C[ver_end][gor_end],gor_end+96,ver_end+48);
+			break;
+			
+		case 9:
+			Move_Write();
+			printf("\nФигура не может срубить фигуру %c на поле %c%c, так как они одного цвета.",C[ver_end][gor_end],gor_end+96,ver_end+48);
+			break;
+			
+		case 10:
+			Move_Write();
+			printf("\nФигура не может срубить фигуру на поле %c%c, так как на этом поле нет фигуры.",gor_end+96,ver_end+48);
+			break;
+			
+		case 11:
+			Move_Write();
+			printf("Пешка на поле %c%c может идти только на 1 клетку вперёд, или на 2 клетки вперёд, если идёт с первоначальной позиции",gor_begin+96,ver_begin+48);
+			break;
+			
+		case 12:
+			Move_Write();
+			printf("Пешка на поле %c%c может ходить только вдоль своей вертикали",gor_begin+96,ver_begin+48);
+			break;
+			
+		case 13:
+			Move_Write();
+			printf("Пешка на поле %c%c может рубить только вдоль диагонали на одну клетку перед собой",gor_begin+96,ver_begin+48);
+			break;
+			
+		case 14:
+			Move_Write();
+			printf("Пешка на поле %c%c может рубить фигуры только на соседних вертикалях",gor_begin+96,ver_begin+48);
+			break;
+			
+		case 15:
+			Move_Write();
+			printf("Фигура %c не может перешагивать через фигуру", letter_fig);
+			break;
+			
+		case 16:
+			Move_Write();
+			printf("Фигура %c с поля %c%c не может пойти на поле %c%c.",letter_fig,gor_begin+96,ver_begin+48,gor_end+96,ver_end+48);
+			break;
+			
+		case 17:
+			Roki_Write();
+			printf("\nКороль или рокирующаяся ладья уже ходили в этой партии.");
+			break;
+			
+		case 18:
+			Roki_Write();
+			printf("\nРокирующаяся ладья уже ходила в этой партии.");
+			break;
+			
+		case 19:
+			Move_Write();
+			printf("Новый массив символов фигур точно был изменён.");
+			break;
+			
+		default:
+			printf("Я не знаю данной ошибки");
+	}
+	printf("\nИсправьте ошибку и попробуйте снова!");
+	exit(1);
+}
+int Module(int x)
+{
+	if(x<0)
+	{
+		x=-x;
+	}
+	return x;
+}
+
+int Check_Getc(char ch)
+{
+	if(ch!=' ' && ch!='.' && ch!='X' && ch!='#' && ch!='+' && ch!='!' && ch!='?' && ch!='\n' && ch!='\t') return 1;
+	return 0;
+}
+
+char Search_Read(FILE *f1,char ch)
+{
+	while(Check_Getc(ch)!=1) //Поиск нормального символа
+	{
+		ch=getc(f1);
+	}
+	return ch;
+}
+
+int Check_Massive(char ch)
+{
+	int i;
+	for(i=0;i<6;i++)
+	{
+		if(ch==Type_figure[i])
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+int Check_Gor(char ch)
+{
+	if(ch>=97 && ch<=104) return 1;
+	return 0;
+}
+
+int Check_Ver(char ch)
+{
+	if(ch>=49 && ch<=56) return 1;
+	return 0;
+}
+
+void Move_input(FILE *f1,char ch)
+{
+	int move_input=0;
+	while(Check_Getc(ch))
+	{
+		move_input=move_input*10+ch-48;
+		ch=getc(f1);
+	}
+	if(move_input!=(move / 2)+(move % 2))
+	{
+		printf("\n%i",move_input);
+		Error_Text(2);
+	}
+}
+
+
+void Move_Read(FILE *f1, char ch)
+{
+	transform=0;
+	last_cut=0;
+	if(Check_Gor(ch))
+	{
+		letter_fig=Type_figure[0];
+	}
+	else
+	{
+		if(Check_Massive(ch))
+		{
+			letter_fig=ch;
+			ch=getc(f1);
+		}
+		else
+		{
+			Error_Text(3);
+		}
+	}
+	
+	ch=Search_Read(f1,ch);
+	if(Check_Gor(ch))
+	{
+		gor_begin=ch-96;
+		ch=getc(f1);
+	}
+	else
+	{
+		Error_Text(3);
+	}
+	
+	ch=Search_Read(f1,ch);
+	if(Check_Ver(ch))
+	{
+		ver_begin=ch-48;
+		ch=getc(f1);
+	}
+	else
+	{
+		Error_Text(3);
+	}
+	
+	ch=Search_Read(f1,ch);
+	if(ch=='-' || ch=='x' || ch==':')
+	{
+		typ_move=ch;
+		ch=getc(f1);
+	}
+	else
+	{
+		Error_Text(3);
+	}
+	
+	ch=Search_Read(f1,ch);
+	if(Check_Gor(ch))
+	{
+		gor_end=ch-96;
+		ch=getc(f1);
+	}
+	else
+	{
+		Error_Text(3);
+	}
+	
+	ch=Search_Read(f1,ch);
+	if(Check_Ver(ch))
+	{
+		ver_end=ch-48;
+		ch=getc(f1);
+	}
+	else
+	{
+		Error_Text(3);
+	}
+	//Проверка на логическую корректность ходов
+	if((gor_begin==gor_end)&&(ver_begin==ver_end))
+	{
+		Error_Text(4);
+	}
+	
+	if(((move % 2 == 1)+(C[ver_begin][gor_begin]<=96))==1)
+	{
+		Error_Text(5);
+	}
+	
+	if(C[ver_begin][gor_begin]!=letter_fig+32*((move+1)%2))
+	{
+		Error_Text(6);
+	}
+	
+	//Заготовка для превлащения
+	if(letter_fig=='P' && (ver_end==1 || ver_end==8))
+	{
+		ch=Search_Read(f1,ch);
+		if(Check_Massive(ch) && ch!='P')
+		{
+			transform=ch;
+		}
+	}
+}
+
+void Roki_Read(FILE *f1, char ch)
+{
+	ch=getc(f1);
+	ch=Search_Read(f1,ch);
+	while(ch=='-')
+	{
+		ch=getc(f1);
+		ch=Search_Read(f1,ch);
+		if(ch=='O')
+		{
+			typ_roki++;
+			ch=getc(f1);
+		}
+		else
+		{
+			Error_Text(3);
+		}
+	}
+	if(typ_roki==0 || typ_roki>2)
+	{
+		Error_Text(7);
+	}
+}
+
+
+
+
 
 
 void Board_Init()
@@ -288,8 +436,7 @@ int Attack_or_Not()
 		}
 		else
 		{
-			printf("Неверно указан ход фигуры, фигура не может встать на занятое поле");
-			exit(1);
+			Error_Text(8);
 		}
 	}
 	if((typ_move==':') || (typ_move=='x'))
@@ -304,15 +451,13 @@ int Attack_or_Not()
 			}
 			else
 			{
-				printf("Неверно указан ход фигуры, фигура не может срубить свою фигуру");
-				exit(1);
+				Error_Text(9);
 			}
 		}
-	}
-	else
-	{
-		printf("Что-то пошло не так с typ_move");
-		exit(1);
+		else
+		{
+			Error_Text(10);
+		}
 	}
 }
 void Moving()
@@ -342,14 +487,12 @@ int Check_Pown() //К удивлению самая сложная проверка
 			}
 			else
 			{
-				printf("Не знал, что пешка ходит так");
-				exit(1);
+				Error_Text(11);
 			}
 		}
 		else
 		{
-			printf("Пешка ходит ПРЯМОлинейно");
-			exit(1);
+			Error_Text(12);
 		}
 	}
 	if(((typ_move==':') || (typ_move=='x')) && (Module(gor_begin-gor_end)==1))
@@ -360,14 +503,12 @@ int Check_Pown() //К удивлению самая сложная проверка
 		}
 		else
 		{
-			printf("Как, скажи на милость, пешка может ТАК РУБИТЬ???");
-			exit(1);
+			Error_Text(13);
 		}
 	}
 	else
 	{
-		printf("Пешка рубит по ДИАГОНАЛИ");
-		exit(1);
+		Error_Text(14);
 	}
 }
 
@@ -426,8 +567,7 @@ void Check_BNQ()
 	{
 		if(C[i][j]!=' ')
 		{
-			printf("Фигура %c не может перешагивать через фигуру %c на клетке %c%c", letter_fig, C[i][j],j+96,i+48);
-			exit(1);
+			Error_Text(15);
 		}
 		i+=dif_i;
 		j+=dif_j;
@@ -444,6 +584,10 @@ void Move_Pawn()
 		}
 		Moving();
 	}
+	else
+	{
+		Error_Text(16);
+	}
 } 
 
 
@@ -453,6 +597,24 @@ void Move_Rook()
 	{
 		Check_BNQ();
 		Moving();
+		if(ver_begin==8-7*(move%2))
+		{
+			if(gor_begin==1)
+			{
+				move_rook[3-2*(move%2)]=0;
+			}
+			else
+			{
+				if(gor_begin==8)
+				{
+					move_rook[4-2*(move%2)]=0;
+				}
+			}
+		}
+	}
+	else
+	{
+		Error_Text(16);
 	}
 } 
 
@@ -463,6 +625,10 @@ void Move_Knight()
 	{
 		Moving();
 	}
+	else
+	{
+		Error_Text(16);
+	}
 } 
 
 void Move_Bishop()
@@ -471,6 +637,10 @@ void Move_Bishop()
 	{
 		Check_BNQ();
 		Moving();
+	}
+	else
+	{
+		Error_Text(16);
 	}
 } 
 
@@ -481,6 +651,10 @@ void Move_Queen()
 		Check_BNQ();
 		Moving();
 	}
+	else
+	{
+		Error_Text(16);
+	}
 } 
 
 void Move_King()
@@ -488,6 +662,15 @@ void Move_King()
 	if(Check_King())
 	{
 		Moving();
+		if(ver_begin==8-7*(move%2))
+		{
+			move_rook[3-2*(move%2)]=0;
+			move_rook[4-2*(move%2)]=0;
+		}
+	}
+	else
+	{
+		Error_Text(16);
 	}
 } 
 
@@ -514,8 +697,43 @@ void Move_Figure()
 			Move_King();
 			break;
 		default:
-			printf("Что-то пошло не так с фигурой в ходе");
-			exit(1);
+			Error_Text(19);
+	}
+}
+
+void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
+{
+	int left=(move%2); 
+	char temp;
+	ver_begin=8-7*left;
+	gor_begin=5;
+	ver_end=ver_begin;
+	int border=3-2*left;
+	letter_fig='K';
+	typ_move='-';
+	
+	if(move_rook[border]) //Если король не двигался, то для левой или правой пары массива move_rook
+	{
+		gor_end=1+7*(typ_roki%2);
+		Check_BNQ();
+		if(move_rook[border+(typ_roki%2)])
+		{
+			temp=gor_end;
+			gor_end=gor_begin-(2-4*(typ_roki%2));
+			Moving();
+			gor_begin=temp;
+			gor_end-=(gor_end-5)/2;
+			letter_fig='R';
+			Moving();
+		}
+		else
+		{
+			Error_Text(18);
+		}
+	}
+	else
+	{
+		Error_Text(17);
 	}
 }
 
@@ -523,14 +741,11 @@ int main()
 {
 	FILE *f1;
 	system("chcp 1251>nul");
-	// Место для записи переменных
-	
 	char ch;
 	f1=fopen("res//Chess_Game.txt","r");
 	if(f1== NULL)
 	{
-		printf("\nДумай как нормально открыть файл");
-		return 1;
+		Error_Text(1);
 	}
 	printf("\nДа ладно сработало");
 	system("CLS");
@@ -550,6 +765,18 @@ int main()
 			system("CLS");
 			Move_Write();
 			Move_Figure();
+			Board();
+			system("Pause");
+			move++;
+		}
+		
+		if(ch=='O')
+		{
+			typ_roki=0;
+			Roki_Read(f1,ch);
+			system("CLS");
+			Roki_Write();
+			Rokirovka();
 			Board();
 			system("Pause");
 			move++;
