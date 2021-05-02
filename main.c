@@ -7,6 +7,54 @@ int ver_begin=0, gor_begin=0, ver_end=0, gor_end=0, move=1;
 char letter_fig=0, typ_move=0, transform=0, last_cut=0;
 int typ_roki=0, move_rook[4]={1,1,1,1};
 
+void Board_Init()
+{
+	int i,j;
+	C[0][0]=' ';
+	for(i=1;i<=8;i++)
+	{
+		C[i][0]=i+48;
+		C[0][i]=i+96;
+		C[2][i]=Type_figure[0];
+		C[7][i]=Type_figure[0]+32;
+		for(j=3;j<=6;j++)
+		{
+			C[j][i]=' ';
+		}
+	}
+	for(j=1;j<=5;j++)
+	{
+		C[1][j]=Type_figure[j];
+		C[8][j]=Type_figure[j]+32;
+	}
+	for(j=6;j<=8;j++)
+	{
+		C[1][j]=Type_figure[9-j];
+		C[8][j]=Type_figure[9-j]+32;
+	}
+	
+}
+
+void Board()
+{
+	int i,j;
+	for(i=8;i>=1;i--)
+	{
+		printf("\n%c  ",C[i][0]);
+		for(j=1;j<=8;j++)
+		{
+			printf("%2c",C[i][j]);
+		}
+	}
+	printf("\n");
+	printf("\n%c  ",C[0][0]);
+	for(j=1;j<=8;j++)
+	{
+		printf("%2c",C[0][j]);
+	}
+	printf("\n");
+}
+
 void Move_Write()
 {
 	printf("\nХод №%i за ",move/2+move % 2);
@@ -33,7 +81,7 @@ void Move_Write()
 	}
 	if(transform)
 	{
-		printf("\nПешка %c%c попала на поле %c%c и стала ",gor_begin+96, ver_begin+48,gor_end+96, ver_end+48,transform);
+		printf("\nПешка %c%c попала на поле %c%c и стала %c",gor_begin+96, ver_begin+48,gor_end+96, ver_end+48,transform);
 	}
 	else
 	{
@@ -79,7 +127,8 @@ void Error_Move()
 
 void Error_Text(int i)
 {
-	printf("%i\n",i);
+	system("CLS");
+	printf("Ошибка №%i\n",i);
 	switch(i)
 	{
 		case 1:
@@ -103,8 +152,9 @@ void Error_Text(int i)
 			
 		case 5:
 			Move_Write();
-			printf("\nНевозможно взять фигуру с того поля, где она не указана.");
+			printf("\nСейчас ход другого цвета, так что походите фигурой другого цвета.");
 			break;
+			
 			
 		case 6:
 			Move_Write();
@@ -179,7 +229,11 @@ void Error_Text(int i)
 		default:
 			printf("Я не знаю данной ошибки");
 	}
-	printf("\nИсправьте ошибку и попробуйте снова!");
+	printf("\nИсправьте ошибку и попробуйте снова!\n");
+	if(i!=1)
+	{
+		Board();
+	}
 	exit(1);
 }
 int Module(int x)
@@ -244,6 +298,24 @@ void Move_input(FILE *f1,char ch)
 		printf("\n%i",move_input);
 		Error_Text(2);
 	}
+}
+
+int Check_Move_End()
+{
+	if((gor_begin==gor_end)&&(ver_begin==ver_end)) return 0; //Негативное условие
+	return 1;
+}
+
+int Check_Move_Color()
+{
+	if(((move % 2 == 1)+(C[ver_begin][gor_begin]<=96))==1) return 0;
+	return 1;
+}
+
+int Check_Move_Begin()
+{
+	if(C[ver_begin][gor_begin]!=letter_fig+32*((move+1)%2)) return 0;
+	return 1;
 }
 
 
@@ -323,17 +395,17 @@ void Move_Read(FILE *f1, char ch)
 		Error_Text(3);
 	}
 	//Проверка на логическую корректность ходов
-	if((gor_begin==gor_end)&&(ver_begin==ver_end))
+	if(Check_Move_End()==0)
 	{
 		Error_Text(4);
 	}
 	
-	if(((move % 2 == 1)+(C[ver_begin][gor_begin]<=96))==1)
+	if(Check_Move_Color()==0)
 	{
 		Error_Text(5);
 	}
 	
-	if(C[ver_begin][gor_begin]!=letter_fig+32*((move+1)%2))
+	if(Check_Move_Begin()==0)
 	{
 		Error_Text(6);
 	}
@@ -374,58 +446,6 @@ void Roki_Read(FILE *f1, char ch)
 }
 
 
-
-
-
-
-void Board_Init()
-{
-	int i,j;
-	C[0][0]=' ';
-	for(i=1;i<=8;i++)
-	{
-		C[i][0]=i+48;
-		C[0][i]=i+96;
-		C[2][i]=Type_figure[0];
-		C[7][i]=Type_figure[0]+32;
-		for(j=3;j<=6;j++)
-		{
-			C[j][i]=' ';
-		}
-	}
-	for(j=1;j<=5;j++)
-	{
-		C[1][j]=Type_figure[j];
-		C[8][j]=Type_figure[j]+32;
-	}
-	for(j=6;j<=8;j++)
-	{
-		C[1][j]=Type_figure[9-j];
-		C[8][j]=Type_figure[9-j]+32;
-	}
-	
-}
-
-void Board()
-{
-	int i,j;
-	for(i=8;i>=1;i--)
-	{
-		printf("\n%c  ",C[i][0]);
-		for(j=1;j<=8;j++)
-		{
-			printf("%2c",C[i][j]);
-		}
-	}
-	printf("\n");
-	printf("\n%c  ",C[0][0]);
-	for(j=1;j<=8;j++)
-	{
-		printf("%2c",C[0][j]);
-	}
-	printf("\n");
-}
-
 int Attack_or_Not()
 {
 	if(typ_move=='-')
@@ -436,7 +456,7 @@ int Attack_or_Not()
 		}
 		else
 		{
-			Error_Text(8);
+			return 8;
 		}
 	}
 	if((typ_move==':') || (typ_move=='x'))
@@ -451,21 +471,27 @@ int Attack_or_Not()
 			}
 			else
 			{
-				Error_Text(9);
+				return 9;
 			}
 		}
 		else
 		{
-			Error_Text(10);
+			return 10;
 		}
 	}
+	return 0;
 }
 void Moving()
 {
-	if(Attack_or_Not())
+	int x=Attack_or_Not();
+	if(x==1)
 	{
 		C[ver_end][gor_end]=letter_fig+32*((move+1)%2);
 		C[ver_begin][gor_begin]=' ';
+	}
+	else
+	{
+		Error_Text(x);
 	}
 }
 
@@ -487,12 +513,12 @@ int Check_Pown() //К удивлению самая сложная проверка
 			}
 			else
 			{
-				Error_Text(11);
+				return 11;
 			}
 		}
 		else
 		{
-			Error_Text(12);
+			return 12;
 		}
 	}
 	if(((typ_move==':') || (typ_move=='x')) && (Module(gor_begin-gor_end)==1))
@@ -503,12 +529,12 @@ int Check_Pown() //К удивлению самая сложная проверка
 		}
 		else
 		{
-			Error_Text(13);
+			return 13;
 		}
 	}
 	else
 	{
-		Error_Text(14);
+		return 14;
 	}
 }
 
@@ -548,7 +574,7 @@ int Check_King()
 	return 0;
 }
 
-void Check_BNQ()
+int Check_BNQ()
 {
 	int i,j, dif_i=0,dif_j=0;
 	i=ver_begin;
@@ -567,16 +593,18 @@ void Check_BNQ()
 	{
 		if(C[i][j]!=' ')
 		{
-			Error_Text(15);
+			return 0;
 		}
 		i+=dif_i;
 		j+=dif_j;
 	}
+	return 1;
 }
 
 void Move_Pawn()
 {
-	if(Check_Pown())
+	int x=Check_Pown();
+	if(x==1)
 	{
 		if(ver_end==8 || ver_end==1)
 		{
@@ -586,7 +614,7 @@ void Move_Pawn()
 	}
 	else
 	{
-		Error_Text(16);
+		Error_Text(x);
 	}
 } 
 
@@ -595,7 +623,10 @@ void Move_Rook()
 {
 	if(Check_Rook())
 	{
-		Check_BNQ();
+		if(Check_BNQ()==0)
+		{
+			Error_Text(15);
+		}
 		Moving();
 		if(ver_begin==8-7*(move%2))
 		{
@@ -635,7 +666,10 @@ void Move_Bishop()
 {
 	if(Check_Bishop())
 	{
-		Check_BNQ();
+		if(Check_BNQ()==0)
+		{
+			Error_Text(15);
+		}
 		Moving();
 	}
 	else
@@ -648,7 +682,10 @@ void Move_Queen()
 {
 	if(Check_Rook() || Check_Bishop()) //Проверка на ход как ладья
 	{
-		Check_BNQ();
+		if(Check_BNQ()==0)
+		{
+			Error_Text(15);
+		}
 		Moving();
 	}
 	else
@@ -715,7 +752,10 @@ void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
 	if(move_rook[border]) //Если король не двигался, то для левой или правой пары массива move_rook
 	{
 		gor_end=1+7*(typ_roki%2);
-		Check_BNQ();
+		if(Check_BNQ()==0)
+		{
+			Error_Text(15);
+		}
 		if(move_rook[border+(typ_roki%2)])
 		{
 			temp=gor_end;
@@ -737,18 +777,9 @@ void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
 	}
 }
 
-int main()
+void Chess_Game(FILE *f1)
 {
-	FILE *f1;
-	system("chcp 1251>nul");
 	char ch;
-	f1=fopen("res//Chess_Game.txt","r");
-	if(f1== NULL)
-	{
-		Error_Text(1);
-	}
-	printf("\nДа ладно сработало");
-	system("CLS");
 	Board_Init();
 	while((ch=getc(f1))!=EOF)
 	{
@@ -782,6 +813,17 @@ int main()
 			move++;
 		}
 	}
-	fclose(f1);	
+}
+
+int main()
+{
+	FILE *f1;
+	system("chcp 1251>nul");
+	f1=fopen("res//Chess_Game.txt","r");
+	if(f1== NULL)
+	{
+		Error_Text(1);
+	}
+	Chess_Game(f1);
 	return 0;
 }
