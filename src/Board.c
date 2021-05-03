@@ -1,6 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 
+
 extern char Type_figure[], C[][9];
 
 void Board_Init()

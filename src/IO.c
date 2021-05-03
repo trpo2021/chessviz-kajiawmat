@@ -4,6 +4,7 @@
 #include "Rules.h"
 
 
+
 extern int move, gor_begin, ver_begin, gor_end, ver_end, typ_roki;
 extern char letter_fig, typ_move, transform, last_cut, C[][9]; 
 extern const char Type_figure[];
@@ -29,7 +30,7 @@ void Move_input(FILE *f1,char ch)
 	if(move_input!=(move / 2)+(move % 2))
 	{
 		printf("\n--------------");
-		printf("Написан ход \n%i",move_input);
+		printf("\nНаписан ход %i",move_input);
 		printf("\n--------------");
 		system("pause");
 		Error_Text(2);

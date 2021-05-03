@@ -5,6 +5,7 @@
 #include "Moving.h"
 #include "Rules.h"
 
+
 extern int typ_roki, move;
 
 void Chess_Game(FILE *f1)

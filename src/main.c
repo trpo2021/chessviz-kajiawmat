@@ -3,6 +3,7 @@
 #include"Chess_Game.h"
 #include"Error_Message.h"
 
+
 const char Type_figure[6]={'P','R','N','B','Q','K'};
 char C[9][9];
 

@@ -5,6 +5,7 @@
 extern int move, gor_begin, ver_begin, gor_end, ver_end;
 extern char letter_fig, C[][9];
 
+
 void Error_Move()
 {
 	printf("\nСейчас ход №%i за ",move/2+move % 2);
@@ -132,5 +133,6 @@ void Error_Text(int i)
 	{
 		Board();
 	}
+	system("pause>nul");
 	exit(1);
 }

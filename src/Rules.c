@@ -16,7 +16,7 @@ int Module(int x)
 
 int Check_Getc(char ch)
 {
-	if(ch!=' ' && ch!='.' && ch!='X' && ch!='#' && ch!='+' && ch!='!' && ch!='?' && ch!='\n' && ch!='\t') return 1;
+	if(ch!=' ' && ch!='.' && ch!='X' && ch!='#' && ch!='+' && ch!='!' && ch!='?' && ch!=';' && ch!='\n' && ch!='\t') return 1;
 	return 0;
 }
 
