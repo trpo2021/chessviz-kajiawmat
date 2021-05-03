@@ -2,7 +2,9 @@
 #include<stdio.h>
 
 
-extern char Type_figure[], C[][9];
+extern char C[][9];
+extern const char Type_figure[];
+extern const int Ver_min, Gor_min, Reg;
 
 void Board_Init()
 {
@@ -10,10 +12,10 @@ void Board_Init()
 	C[0][0]=' ';
 	for(i=1;i<=8;i++)
 	{
-		C[i][0]=i+48;
-		C[0][i]=i+96;
+		C[i][0]=i+Ver_min;
+		C[0][i]=i+Gor_min;
 		C[2][i]=Type_figure[0];
-		C[7][i]=Type_figure[0]+32;
+		C[7][i]=Type_figure[0]+Reg;
 		for(j=3;j<=6;j++)
 		{
 			C[j][i]=' ';
@@ -22,12 +24,12 @@ void Board_Init()
 	for(j=1;j<=5;j++)
 	{
 		C[1][j]=Type_figure[j];
-		C[8][j]=Type_figure[j]+32;
+		C[8][j]=Type_figure[j]+Reg;
 	}
 	for(j=6;j<=8;j++)
 	{
 		C[1][j]=Type_figure[9-j];
-		C[8][j]=Type_figure[9-j]+32;
+		C[8][j]=Type_figure[9-j]+Reg;
 	}
 	
 }

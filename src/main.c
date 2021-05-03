@@ -3,8 +3,10 @@
 #include"Chess_Game.h"
 #include"Error_Message.h"
 
-
+const int Players=2, Reg=('a'-'A'), Gor_min=('a'-1), Ver_min=('1'-1);
 const char Type_figure[6]={'P','R','N','B','Q','K'};
+const char Sym_Ignore[11]={' ','.',',','X','#','+','!','?',';','\n','\t'};
+
 char C[9][9];
 
 int ver_begin=0, gor_begin=0, ver_end=0, gor_end=0, move=1;
@@ -20,7 +22,9 @@ int main()
 	{
 		Error_Text(1);
 	}
+	Game_Init();
 	Chess_Game(f1);
+	system("Pause");
 	return 0;
 }
 

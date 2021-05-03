@@ -8,7 +8,7 @@ CTEST(open_file, test1)
 	int open=0;
 	ft=fopen("res//Chess_Game.txt","r");
 	if(ft) open=1;
-	ASSERT_EQUAL(ft,1);
+	ASSERT_EQUAL(1,open);
 	fclose(ft);
 }
 
@@ -18,7 +18,7 @@ CTEST(open_file, test2)
 	int open=0;
 	ft=fopen("res//Chess_Game_test.txt","r");
 	if(ft) open=1;
-	ASSERT_EQUAL(ft,1);
+	ASSERT_EQUAL(1,open);
 	fclose(ft);
 }
 

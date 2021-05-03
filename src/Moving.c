@@ -5,13 +5,16 @@
 
 extern int move, gor_begin, ver_begin, gor_end, ver_end, typ_roki, move_rook[];
 extern char letter_fig, typ_move, transform, C[][9];
+extern const int Players, Ver_min, Gor_min, Reg;
+extern const char Type_figure[];
+
 
 void Moving()
 {
 	int x=Attack_or_Not();
 	if(x==1)
 	{
-		C[ver_end][gor_end]=letter_fig+32*((move+1)%2);
+		C[ver_end][gor_end]=letter_fig+Reg*((move+1)%Players);
 		C[ver_begin][gor_begin]=' ';
 	}
 	else
@@ -46,17 +49,17 @@ void Move_Rook()
 			Error_Text(15);
 		}
 		Moving();
-		if(ver_begin==8-7*(move%2))
+		if(ver_begin==8-7*(move%Players))
 		{
 			if(gor_begin==1)
 			{
-				move_rook[3-2*(move%2)]=0;
+				move_rook[3-2*(move%Players)]=0;
 			}
 			else
 			{
 				if(gor_begin==8)
 				{
-					move_rook[4-2*(move%2)]=0;
+					move_rook[4-2*(move%Players)]=0;
 				}
 			}
 		}
@@ -117,10 +120,10 @@ void Move_King()
 	if(Check_King())
 	{
 		Moving();
-		if(ver_begin==8-7*(move%2))
+		if(ver_begin==8-7*(move%Players))
 		{
-			move_rook[3-2*(move%2)]=0;
-			move_rook[4-2*(move%2)]=0;
+			move_rook[3-2*(move%Players)]=0;
+			move_rook[4-2*(move%Players)]=0;
 		}
 	}
 	else
@@ -158,13 +161,13 @@ void Move_Figure()
 
 void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
 {
-	int left=(move%2); 
+	int left=(move%Players); 
 	char temp;
 	ver_begin=8-7*left;
 	gor_begin=5;
 	ver_end=ver_begin;
 	int border=3-2*left;
-	letter_fig='K';
+	letter_fig=Type_figure[5];
 	typ_move='-';
 	
 	if(Check_Roki(border)) //Если король не двигался, то для левой или правой пары массива move_rook
@@ -181,7 +184,7 @@ void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
 			Moving();
 			gor_begin=temp;
 			gor_end-=(gor_end-5)/2;
-			letter_fig='R';
+			letter_fig=Type_figure[1];
 			Moving();
 		}
 		else

@@ -1,4 +1,3 @@
-Unfortunatly, i can't use .clang-format in dev-cpp for formating code of programm, sorry.
 ---
 Language:        C
 AccessModifierOffset: -4

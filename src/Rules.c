@@ -1,8 +1,10 @@
 #include<stdlib.h>
 #include "Error_Message.h"
+
 extern int move, gor_begin, ver_begin, gor_end, ver_end, move_rook[];
 extern char letter_fig, typ_move, C[][9],last_cut;
-extern char const Type_figure[];
+extern char const Type_figure[], Sym_Ignore[];
+extern const int Players, Ver_min, Gor_min, Reg;
 
 
 int Module(int x)
@@ -16,8 +18,15 @@ int Module(int x)
 
 int Check_Getc(char ch)
 {
-	if(ch!=' ' && ch!='.' && ch!='X' && ch!='#' && ch!='+' && ch!='!' && ch!='?' && ch!=';' && ch!='\n' && ch!='\t') return 1;
-	return 0;
+	int i;
+	for(i=0;i<11;i++)
+	{
+		if(ch==Sym_Ignore[i])
+		{
+			return 0;
+		}
+	}
+	return 1;
 }
 
 int Check_Massive(char ch)
@@ -35,13 +44,13 @@ int Check_Massive(char ch)
 
 int Check_Gor(char ch)
 {
-	if(ch>=97 && ch<=104) return 1;
+	if(ch>=(Gor_min+1) && ch<=(Gor_min+9)) return 1;
 	return 0;
 }
 
 int Check_Ver(char ch)
 {
-	if(ch>=49 && ch<=56) return 1;
+	if(ch>=(Ver_min+1) && ch<=(Ver_min+9)) return 1;
 	return 0;
 }
 
@@ -53,19 +62,19 @@ int Check_Move_End()
 
 int Check_Move_Color()
 {
-	if(((move % 2 == 1)+(C[ver_begin][gor_begin]<=96))==1) return 0;
+	if(((move % Players == 1)+(C[ver_begin][gor_begin]<=Gor_min))==1) return 0; //Выполняется только одно из условий
 	return 1;
 }
 
 int Check_Move_Begin()
 {
-	if(C[ver_begin][gor_begin]!=letter_fig+32*((move+1)%2)) return 0;
-	return 1;
+	if(C[ver_begin][gor_begin]==letter_fig+Reg*((move+1)%Players)) return 1;
+	return 0;
 }
 
 int Check_Transform(char ch)
 {
-	if(Check_Massive(ch) && ch!='P' && ch!='K')
+	if(Check_Massive(ch) && ch!=Type_figure[0] && ch!=Type_figure[5])
 	{
 		return 1;
 	}
@@ -89,7 +98,7 @@ int Attack_or_Not()
 	{
 		if(C[ver_end][gor_end]!=' ')
 		{
-			if(((move % 2 == 1)+(C[ver_end][gor_end]<=96))==1) 
+			if(((move % Players == 1)+(C[ver_end][gor_end]<=Gor_min))==1) 
 			//Первое выражение возвращает 1 если белых ход, второе -- 1 если белая фигура (принцип исключающего ИЛИ (XOR))
 			{
 				last_cut=C[ver_end][gor_end];
@@ -110,7 +119,7 @@ int Attack_or_Not()
 
 int Check_Pown() //К удивлению самая сложная проверка
 {
-	int distance=-1+2*(move%2);
+	int distance=-1+2*(move%Players);
 	int dif_ver=ver_end-ver_begin;
 	if(typ_move=='-')
 	{

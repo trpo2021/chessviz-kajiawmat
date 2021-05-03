@@ -6,7 +6,9 @@
 #include "Rules.h"
 
 
-extern int typ_roki, move;
+extern int gor_begin, ver_begin, gor_end, ver_end, typ_roki, move;
+extern char letter_fig, typ_move, transform, last_cut;
+extern const int Ver_min;
 
 void Chess_Game(FILE *f1)
 {
@@ -16,7 +18,7 @@ void Chess_Game(FILE *f1)
 	{
 		ch=Search_Read(f1,ch);	
 		
-		if(ch>=48 && ch<=57)  //48 и 57 -- символьные коды цифр '0' и '9'
+		if(ch>=Ver_min && ch<=(Ver_min+9))  //more '0' and less '9'
 		{
 			Move_input(f1,ch);
 		}
@@ -45,5 +47,20 @@ void Chess_Game(FILE *f1)
 		}
 	}
 	printf("\n\nИгра окончена!!!\n");
-	system("Pause");
+	fclose(f1);
+	f1=NULL;
+}
+
+void Game_Init()
+{
+	gor_begin=0; 
+	ver_begin=0; 
+	gor_end=0; 
+	ver_end=0; 
+	typ_roki=0; 
+	move=1;
+	letter_fig=0; 
+	typ_move=0;
+	transform=0; 
+	last_cut=0;
 }

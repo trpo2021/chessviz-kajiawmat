@@ -292,33 +292,42 @@ CTEST(Checking_Move, Check_King_test)
 	}
 }
 
-CTEST(Checking_Move, Check_BNQ_test)
+CTEST_SETUP(Checking_Move_BNQ)
+{
+	int dif_x, dif_y;
+	int i,j;
+	int flag;
+}
+
+CTEST(Checking_Move_BNQ, Check_BNQ_test)
 //I don't know how good write this test with help cycle for()
 {
 	Board_NULL(); 
 	ver_begin=4;
 	gor_begin=5;
-	C[6][5]='p';
-	C[4][3]='p';
-	C[5][6]='p';
-	C[2][7]='p';
+	C[ver_begin][gor_begin]='R';
 	ver_end=7;
 	gor_end=2;
-	ASSERT_EQUAL(1,Check_BNQ());
-	gor_end=5;
-	ASSERT_NOT_EQUAL(1,Check_BNQ());
-	gor_end=8;
-	ASSERT_NOT_EQUAL(1,Check_BNQ());
-	ver_end=1;
-	ASSERT_NOT_EQUAL(1,Check_BNQ());
-	gor_end=5;
-	ASSERT_EQUAL(1,Check_BNQ());
-	gor_end=2;
-	ASSERT_EQUAL(1,Check_BNQ());
-	ver_end=4;
-	ASSERT_NOT_EQUAL(1,Check_BNQ());
-	gor_end=8;
-	ASSERT_EQUAL(1,Check_BNQ());
+	dif_x=gor_end-gor_begin;
+	dif_y=ver_end-ver_begin;
+	while(flag=1;flag>=0;flag--)
+	{
+		for(i=0;i<2;i++)
+		{
+			dif_x=gor_end-gor_begin;
+			dif_y=ver_end-ver_begin;
+			for(j=0;j<3;j++,gor_end+=dif_x)
+			{
+				ASSERT_EQUAL(flag,Check_BNQ());
+				C[ver_begin][gor_begin+(dif_x/Module(dif_x))]='p';
+			}
+			for(j=0;j<3;j++,ver_end+=ver_x)
+			{
+				ASSERT_EQUAL(flag,Check_BNQ());
+				C[ver_begin+(dif_y/Module(dif_y)][gor_begin]='p';
+			}
+		}
+	}
 }
 
 CTEST(Checking_Move, Check_Roki_test)

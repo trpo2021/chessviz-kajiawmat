@@ -14,4 +14,4 @@
 14. Rf1-e1 Bf8-e7
 15. Nb1-c3??? d4:c3
 Kh1-g1 c3:b2
-Kg1-h1 b2:a1K
+Kg1-h1 b2:a1R

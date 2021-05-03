@@ -3,5 +3,6 @@
 #include<stdio.h>
 
 void Chess_Game(FILE *f1);
+void Game_Init();
 
 #endif

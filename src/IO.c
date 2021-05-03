@@ -8,6 +8,7 @@
 extern int move, gor_begin, ver_begin, gor_end, ver_end, typ_roki;
 extern char letter_fig, typ_move, transform, last_cut, C[][9]; 
 extern const char Type_figure[];
+extern const int Players, Ver_min, Gor_min, Reg;
 
 
 char Search_Read(FILE *f1,char ch)
@@ -22,12 +23,12 @@ char Search_Read(FILE *f1,char ch)
 void Move_input(FILE *f1,char ch)
 {
 	int move_input=0;
-	while(Check_Getc(ch))
+	while(ch>=Ver_min && ch<=(Ver_min+9))
 	{
-		move_input=move_input*10+ch-48;
+		move_input=move_input*10+ch-Ver_min;
 		ch=getc(f1);
 	}
-	if(move_input!=(move / 2)+(move % 2))
+	if(move_input!=(move/Players)+(move%Players))
 	{
 		printf("\n--------------");
 		printf("\nНаписан ход %i",move_input);
@@ -61,7 +62,7 @@ void Move_Read(FILE *f1, char ch)
 	ch=Search_Read(f1,ch);
 	if(Check_Gor(ch))
 	{
-		gor_begin=ch-96;
+		gor_begin=ch-Gor_min;
 		ch=getc(f1);
 	}
 	else
@@ -72,7 +73,7 @@ void Move_Read(FILE *f1, char ch)
 	ch=Search_Read(f1,ch);
 	if(Check_Ver(ch))
 	{
-		ver_begin=ch-48;
+		ver_begin=ch-Ver_min;
 		ch=getc(f1);
 	}
 	else
@@ -94,7 +95,7 @@ void Move_Read(FILE *f1, char ch)
 	ch=Search_Read(f1,ch);
 	if(Check_Gor(ch))
 	{
-		gor_end=ch-96;
+		gor_end=ch-Gor_min;
 		ch=getc(f1);
 	}
 	else
@@ -105,7 +106,7 @@ void Move_Read(FILE *f1, char ch)
 	ch=Search_Read(f1,ch);
 	if(Check_Ver(ch))
 	{
-		ver_end=ch-48;
+		ver_end=ch-Ver_min;
 		ch=getc(f1);
 	}
 	else
@@ -129,7 +130,7 @@ void Move_Read(FILE *f1, char ch)
 	}
 	
 	//Заготовка для превлащения
-	if(letter_fig=='P' && (ver_end==1 || ver_end==8))
+	if(letter_fig==Type_figure[0] && (ver_end==1 || ver_end==8))
 	{
 		ch=Search_Read(f1,ch);
 		if(Check_Transform(ch))
@@ -169,8 +170,8 @@ void Roki_Read(FILE *f1, char ch)
 
 void Move_Write()
 {
-	printf("\nХод №%i за ",move/2+move % 2);
-	if(move % 2)
+	printf("\nХод №%i за ",move/Players+move%Players);
+	if(move % Players)
 	{
 		printf("белых: ");
 	}
@@ -182,10 +183,10 @@ void Move_Write()
 	{
 		printf("%c",letter_fig);
 	}
-	printf("%c%c%c%c%c",gor_begin+96, ver_begin+48, typ_move, gor_end+96, ver_end+48);
+	printf("%c%c%c%c%c",gor_begin+Gor_min, ver_begin+Ver_min, typ_move, gor_end+Gor_min, ver_end+Ver_min);
 	if((typ_move==':') || (typ_move=='x'))
 	{
-		printf("\nВзята фигура %c на поле %c%c",C[ver_end][gor_end],gor_end+96, ver_end+48);
+		printf("\nВзята фигура %c на поле %c%c",C[ver_end][gor_end],gor_end+Gor_min, ver_end+Ver_min);
 	}
 	else
 	{
@@ -193,7 +194,7 @@ void Move_Write()
 	}
 	if(transform)
 	{
-		printf("\nПешка %c%c попала на поле %c%c и стала %c",gor_begin+96, ver_begin+48,gor_end+96, ver_end+48,transform);
+		printf("\nПешка %c%c попала на поле %c%c и стала %c",gor_begin+Gor_min, ver_begin+Ver_min,gor_end+Gor_min, ver_end+Ver_min,transform);
 	}
 	else
 	{
@@ -206,8 +207,8 @@ void Move_Write()
 void Roki_Write()
 {
 	int i=0;
-	printf("\nХод №%i за ",move/2+move % 2);
-	if(move % 2)
+	printf("\nХод №%i за ",move/Players+move%Players);
+	if(move % Players)
 	{
 		printf("белых: ");
 	}
