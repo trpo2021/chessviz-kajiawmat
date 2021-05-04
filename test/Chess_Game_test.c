@@ -2,23 +2,21 @@
 #include<stdlib.h>
 #include "ctest.h"
 #include "Chess_Game.h"
-//If it will not work, I CAN ignore this test, because if other functions work, then it works too
+//If it will not work, I CAN ignore this test, because if other functions works, then it works too
 
-extern int gor_begin, ver_begin, gor_end, ver_end, typ_roki, move;
+extern int gor_begin, ver_begin, gor_end, ver_end, typ_roki, move, move_rook[];
 extern char letter_fig, typ_move, transform, last_cut;
-extern const int Ver_min;
 
 CTEST_SETUP(Game)
 {
 	Game_Init();
 	FILE *ft;
-	ft=fopen("res//Chess_Game_test.txt","r");
-	flag;
+	ft=fopen("res//test_game//Chess_Game_test.txt","r");
+	int flag=0;
 }
 
 CTEST(Game,Chess_Game_test)
 {
-	flag=0;
 	Chess_Game(ft);
 	if(ft==NULL)
 	{

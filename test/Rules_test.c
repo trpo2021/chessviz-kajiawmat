@@ -5,7 +5,8 @@
 
 extern int move, gor_begin, ver_begin, gor_end, ver_end, move_rook[];
 extern char letter_fig, typ_move, C[][9],last_cut;
-extern char const Type_figure[];
+extern char const Type_figure[], Sym_Ignore[];
+extern const int Players, Ver_min, Gor_min, Reg;
 
 CTEST(Module,test_all)
 {
@@ -30,13 +31,12 @@ CTEST_SETUP(Checking_Read)
 
 CTEST(Checking_Read, Check_Getc_test)
 {
-	char sym_massive[10]={' ','.','#','+','!','?',';','\n','\t','X'};
 	for(x=32;x<'A';x++)
 	{
 		flag=0;
-		for(i=0;i<10-3;i++)
+		for(i=0;i<11-3;i++)
 		{
-			if(x==sym_massive[i])
+			if(x==Sym_Ignore[i])
 			{
 				flag=1;
 				break;
@@ -44,11 +44,11 @@ CTEST(Checking_Read, Check_Getc_test)
 		}
 		ASSERT_EQUAL(flag,Check_Getc(x));
 	}
-	x=sym_massive[8];
+	x=Sym_Ignore[9];
 	ASSERT_EQUAL(1,Check_Getc(x));
-	x=sym_massive[9];
+	x=Sym_Ignore[10];
 	ASSERT_EQUAL(1,Check_Getc(x));
-	x=sym_massive[10];
+	x=Sym_Ignore[11];
 	ASSERT_EQUAL(1,Check_Getc(x));
 }
 
@@ -74,7 +74,7 @@ CTEST(Checking_Read, Check_Gor_test)
 	for(x=50;x<=127;x++)
 	{
 		flag=0;
-		if(x>=97 && x<=104)
+		if(x>=(Gor_min+1) && x<=(Gor_min+8))
 		{
 			flag=1;
 		}
@@ -87,7 +87,7 @@ CTEST(Checking_Read, Check_Ver_test)
 	for(x=30;x<=65;x++)
 	{
 		flag=0;
-		if(x>=49 && x<=56)
+		if(x>=(Ver_min+1) && x<=(Ver_min+8))
 		{
 			flag=1;
 		}
@@ -114,7 +114,7 @@ CTEST(Checking_Read, Check_Transform_test)
 
 CTEST_SETUP(Checking_Move)
 {
-	int flag,i;
+	int flag,i,j;
 }
 
 CTEST(Checking_Move, Check_Move_End_test)
@@ -149,12 +149,12 @@ CTEST(Checking_Move, Check_Move_Color_test)
 	ver_begin=6;
 	for(move=1;move<=2;move++)
 	{
-		flag=move%2;
+		flag=move%Players;
 		for(i=0;i<6;i++)
 		{
 			C[ver_begin][gor_begin]=Type_figure[i];
 			ASSERT_EQUAL(flag,Check_Move_Color());
-			C[ver_begin][gor_begin]+=32;
+			C[ver_begin][gor_begin]+=Reg;
 			ASSERT_NOT_EQUAL(flag,Check_Move_Color());
 		}
 	}
@@ -171,7 +171,7 @@ CTEST(Checking_Move, Check_Move_Begin_test)
 		for(i=0;i<6;i++)
 		{
 			letter_fig=Type_figure[i];
-			if(letter_fig+32*((move+1)%2==C[ver_begin][gor_begin])
+			if(letter_fig+Reg*((move+1)%2)==C[ver_begin][gor_begin])
 			{
 				ASSERT_EQUAL(1,Check_Move_Begin());
 			}
@@ -207,9 +207,42 @@ CTEST(Checking_Move, Attack_or_Not_test)
 	ASSERT_EQUAL(0,Attack_or_Not());
 }
 
-CTEST(Checking_Move, Check_Pown_test)
+CTEST(Checking_Move, Check_Pawn_test)
+//I have no idea how good this realize
 {
-	
+	gor_begin=3;
+	char Move_typ[2]={'-',':'};
+	for(move=1;move<=2;move++)
+	{
+		ver_begin=7-5*(move % Players);
+		ver_end=ver_begin-1+2*(move % Players);
+		for(i=0;i<2;i++)
+		{
+			typ_move=Move_typ[i];
+			for(j=-1;j<=1;j++)
+			{
+				gor_end=gor_begin+j;
+				if(((j==0) + (i==0)) != 1)
+				{
+					ASSERT_EQUAL(1,Check_Pawn);
+				}
+				else
+				{
+					ASSERT_NOT_EQUAL(1,Check_Pawn);
+				}
+			}
+		}
+	}
+	// and for all return's check
+	ver_end=4;
+	typ_move='-';
+	ASSERT_EQUAL(12,Check_Pawn);
+	gor_end=gor_begin;
+	ASSERT_EQUAL(11,Check_Pawn);
+	typ_move='x';
+	ASSERT_EQUAL(14,Check_Pawn);
+	ver_end=8;
+	ASSERT_EQUAL(13,Check_Pawn);
 }
 
 CTEST(Checking_Move, Check_Rook_test)
@@ -300,7 +333,6 @@ CTEST_SETUP(Checking_Move_BNQ)
 }
 
 CTEST(Checking_Move_BNQ, Check_BNQ_test)
-//I don't know how good write this test with help cycle for()
 {
 	Board_NULL(); 
 	ver_begin=4;
@@ -308,8 +340,6 @@ CTEST(Checking_Move_BNQ, Check_BNQ_test)
 	C[ver_begin][gor_begin]='R';
 	ver_end=7;
 	gor_end=2;
-	dif_x=gor_end-gor_begin;
-	dif_y=ver_end-ver_begin;
 	while(flag=1;flag>=0;flag--)
 	{
 		for(i=0;i<2;i++)

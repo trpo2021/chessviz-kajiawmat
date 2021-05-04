@@ -44,13 +44,13 @@ int Check_Massive(char ch)
 
 int Check_Gor(char ch)
 {
-	if(ch>=(Gor_min+1) && ch<=(Gor_min+9)) return 1;
+	if(ch>=(Gor_min+1) && ch<=(Gor_min+8)) return 1;
 	return 0;
 }
 
 int Check_Ver(char ch)
 {
-	if(ch>=(Ver_min+1) && ch<=(Ver_min+9)) return 1;
+	if(ch>=(Ver_min+1) && ch<=(Ver_min+8)) return 1;
 	return 0;
 }
 
@@ -117,7 +117,7 @@ int Attack_or_Not()
 	return 0;
 }
 
-int Check_Pown() //К удивлению самая сложная проверка
+int Check_Pawn() //К удивлению самая сложная проверка
 {
 	int distance=-1+2*(move%Players);
 	int dif_ver=ver_end-ver_begin;

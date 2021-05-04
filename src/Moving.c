@@ -25,7 +25,7 @@ void Moving()
 
 void Move_Pawn()
 {
-	int x=Check_Pown();
+	int x=Check_Pawn();
 	if(x==1)
 	{
 		if(ver_end==8 || ver_end==1)
@@ -186,6 +186,8 @@ void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
 			gor_end-=(gor_end-5)/2;
 			letter_fig=Type_figure[1];
 			Moving();
+			move_rook[border]=0;
+			move_rook[border+1]=0;
 		}
 		else
 		{

@@ -11,7 +11,7 @@ int Check_Move_Color();
 int Check_Move_Begin();
 int Check_Transform(char ch);
 int Attack_or_Not();
-int Check_Pown();
+int Check_Pawn();
 int Check_Rook();
 int Check_Knight();
 int Check_Bishop();
