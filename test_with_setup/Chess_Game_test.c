@@ -7,12 +7,16 @@
 extern int gor_begin, ver_begin, gor_end, ver_end, typ_roki, move, move_rook[];
 extern char letter_fig, typ_move, transform, last_cut;
 
-CTEST_SKIP(Game,Chess_Game_test)
+CTEST_SETUP(Game)
 {
 	Game_Init();
 	FILE *ft;
 	ft=fopen("res//test_game//Chess_Game_test.txt","r");
 	int flag=0;
+}
+
+CTEST(Game,Chess_Game_test)
+{
 	Chess_Game(ft);
 	if(ft==NULL)
 	{

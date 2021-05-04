@@ -166,7 +166,7 @@ void Rokirovka() //Ошибся, рокировка, даже БЕЗ шаха, требуют много сравнений
 	ver_begin=8-7*left;
 	gor_begin=5;
 	ver_end=ver_begin;
-	int border=3-2*left;
+	int border=2-2*left;
 	letter_fig=Type_figure[5];
 	typ_move='-';
 	

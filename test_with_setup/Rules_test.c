@@ -23,36 +23,37 @@ CTEST(Module,test_all)
 	}
 }
 
-CTEST(Checking_Read, Check_Getc_test)
+CTEST_SETUP(Checking_Read)
 {
 	char x;
-	int flag,i;
-	for(x=' ';x<'A';x++)
+	int flag,i,j;
+}
+
+CTEST(Checking_Read, Check_Getc_test)
+{
+	for(x=32;x<'A';x++)
 	{
-		flag=1;
-		for(i=0;i<9;i++)
+		flag=0;
+		for(i=0;i<11-3;i++)
 		{
 			if(x==Sym_Ignore[i])
 			{
-				flag=0;
+				flag=1;
 				break;
 			}
 		}
 		ASSERT_EQUAL(flag,Check_Getc(x));
 	}
-	x=Sym_Ignore[3];
-	ASSERT_EQUAL(0,Check_Getc(x));
 	x=Sym_Ignore[9];
-	ASSERT_EQUAL(0,Check_Getc(x));
+	ASSERT_EQUAL(1,Check_Getc(x));
 	x=Sym_Ignore[10];
-	ASSERT_EQUAL(0,Check_Getc(x));
-
+	ASSERT_EQUAL(1,Check_Getc(x));
+	x=Sym_Ignore[11];
+	ASSERT_EQUAL(1,Check_Getc(x));
 }
 
 CTEST(Checking_Read, Check_Massive_test)
 {
-	char x;
-	int flag,i;
 	for(x=60;x<=122;x++)
 	{
 		flag=0;
@@ -70,9 +71,7 @@ CTEST(Checking_Read, Check_Massive_test)
 
 CTEST(Checking_Read, Check_Gor_test)
 {
-	char x;
-	int flag;
-	for(x=50;x<=123;x++)
+	for(x=50;x<=127;x++)
 	{
 		flag=0;
 		if(x>=(Gor_min+1) && x<=(Gor_min+8))
@@ -85,8 +84,6 @@ CTEST(Checking_Read, Check_Gor_test)
 
 CTEST(Checking_Read, Check_Ver_test)
 {
-	char x;
-	int flag;
 	for(x=30;x<=65;x++)
 	{
 		flag=0;
@@ -100,12 +97,10 @@ CTEST(Checking_Read, Check_Ver_test)
 
 CTEST(Checking_Read, Check_Transform_test)
 {
-	char x;
-	int flag;
-	for(x=50;x<=123;x++)
+	for(x=50;x<=127;x++)
 	{
 		flag=0;
-		if(Check_Massive(x) && x!='P' && x!='K')
+		if(Check_Massive(ch) && x!='P' && x!='K')
 		{
 			flag=1;
 		}
@@ -117,11 +112,13 @@ CTEST(Checking_Read, Check_Transform_test)
 	ASSERT_EQUAL(0,Check_Transform(x));
 }
 
-
+CTEST_SETUP(Checking_Move)
+{
+	int flag,i,j;
+}
 
 CTEST(Checking_Move, Check_Move_End_test)
 {
-	int flag,i;
 	gor_begin=3;
 	ver_begin=5;
 	for(i=1,ver_end=ver_begin;i<=8;i++)
@@ -138,7 +135,7 @@ CTEST(Checking_Move, Check_Move_End_test)
 	{
 		flag=1;
 		ver_end=i;
-		if(ver_end==ver_begin)
+		if(gor_end==gor_begin)
 		{
 			flag=0;
 		}
@@ -148,7 +145,6 @@ CTEST(Checking_Move, Check_Move_End_test)
 
 CTEST(Checking_Move, Check_Move_Color_test)
 {
-	int flag,i;
 	gor_begin=2;
 	ver_begin=6;
 	for(move=1;move<=2;move++)
@@ -167,7 +163,6 @@ CTEST(Checking_Move, Check_Move_Color_test)
 
 CTEST(Checking_Move, Check_Move_Begin_test)
 {
-	int i;
 	gor_begin=1;
 	ver_begin=7;
 	for(move=1;move<=2;move++)
@@ -182,7 +177,7 @@ CTEST(Checking_Move, Check_Move_Begin_test)
 			}
 			else
 			{
-				ASSERT_NOT_EQUAL(1,Check_Move_Begin());
+				ASSERT_NOT_EQUAL(1,Check_Move_Color());
 			}
 			
 		}
@@ -215,7 +210,6 @@ CTEST(Checking_Move, Attack_or_Not_test)
 CTEST(Checking_Move, Check_Pawn_test)
 //I have no idea how good this realize
 {
-	int i,j;
 	gor_begin=3;
 	char Move_typ[2]={'-',':'};
 	for(move=1;move<=2;move++)
@@ -230,32 +224,29 @@ CTEST(Checking_Move, Check_Pawn_test)
 				gor_end=gor_begin+j;
 				if(((j==0) + (i==0)) != 1)
 				{
-					ASSERT_EQUAL(1,Check_Pawn());
+					ASSERT_EQUAL(1,Check_Pawn);
 				}
 				else
 				{
-					ASSERT_NOT_EQUAL(1,Check_Pawn());
+					ASSERT_NOT_EQUAL(1,Check_Pawn);
 				}
 			}
 		}
 	}
 	// and for all return's check
-	move=2;
 	ver_end=4;
 	typ_move='-';
-	ASSERT_EQUAL(12,Check_Pawn());
+	ASSERT_EQUAL(12,Check_Pawn);
 	gor_end=gor_begin;
-	ASSERT_EQUAL(11,Check_Pawn());
+	ASSERT_EQUAL(11,Check_Pawn);
 	typ_move='x';
-	ASSERT_EQUAL(14,Check_Pawn());
-	gor_end++;
+	ASSERT_EQUAL(14,Check_Pawn);
 	ver_end=8;
-	ASSERT_EQUAL(13,Check_Pawn());
+	ASSERT_EQUAL(13,Check_Pawn);
 }
 
 CTEST(Checking_Move, Check_Rook_test)
 {
-	int flag,i,j;
 	ver_begin=8;
 	gor_begin=1;
 	for(i=1;i<=8;i++)
@@ -276,7 +267,6 @@ CTEST(Checking_Move, Check_Rook_test)
 
 CTEST(Checking_Move, Check_Knight_test)
 {
-	int flag,i,j;
 	ver_begin=2;
 	gor_begin=7;
 	for(i=1;i<=8;i++)
@@ -297,7 +287,6 @@ CTEST(Checking_Move, Check_Knight_test)
 
 CTEST(Checking_Move, Check_Bishop_test)
 {
-	int flag,i,j;
 	ver_begin=2;
 	gor_begin=2;
 	for(i=1;i<=8;i++)
@@ -318,7 +307,6 @@ CTEST(Checking_Move, Check_Bishop_test)
 
 CTEST(Checking_Move, Check_King_test)
 {
-	int flag,i,j;
 	ver_begin=2;
 	gor_begin=2;
 	for(i=1;i<=8;i++)
@@ -337,35 +325,36 @@ CTEST(Checking_Move, Check_King_test)
 	}
 }
 
-
-CTEST(Checking_Move_BNQ, Check_BNQ_test)
+CTEST_SETUP(Checking_Move_BNQ)
 {
 	int dif_x, dif_y;
 	int i,j;
 	int flag;
+}
+
+CTEST(Checking_Move_BNQ, Check_BNQ_test)
+{
 	Board_NULL(); 
 	ver_begin=4;
 	gor_begin=5;
-	C[ver_begin][gor_begin]='Q';
+	C[ver_begin][gor_begin]='R';
 	ver_end=7;
 	gor_end=2;
-	dif_x=gor_end-gor_begin;
-	dif_y=ver_end-ver_begin;
-	for(flag=1;flag>=0;flag--)
+	while(flag=1;flag>=0;flag--)
 	{
-		for(i=1;i>=-1;i-=2)
+		for(i=0;i<2;i++)
 		{
-			for(j=0;j<2;j++)
+			dif_x=gor_end-gor_begin;
+			dif_y=ver_end-ver_begin;
+			for(j=0;j<3;j++,gor_end+=dif_x)
 			{
 				ASSERT_EQUAL(flag,Check_BNQ());
-				C[ver_begin+i][gor_begin+i*(1-j)*(dif_x/Module(dif_x))]='p';
-				gor_end-=i*dif_x;
+				C[ver_begin][gor_begin+(dif_x/Module(dif_x))]='p';
 			}
-			for(j=0;j<2;j++)
+			for(j=0;j<3;j++,ver_end+=ver_x)
 			{
 				ASSERT_EQUAL(flag,Check_BNQ());
-				C[ver_begin+i*(1-j)*(dif_y/Module(dif_y))][gor_begin+i]='p';
-				ver_end-=i*dif_y;
+				C[ver_begin+(dif_y/Module(dif_y)][gor_begin]='p';
 			}
 		}
 	}
@@ -373,7 +362,6 @@ CTEST(Checking_Move_BNQ, Check_BNQ_test)
 
 CTEST(Checking_Move, Check_Roki_test)
 {
-	int flag,i;
 	for(i=0;i<4;i++)
 	{
 		flag=0;
