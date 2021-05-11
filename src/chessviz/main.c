@@ -18,7 +18,6 @@ int typ_roki = 0, move_rook[4] = { 1, 1, 1, 1 };
 
 int main() {
     FILE * f1;
-    
     f1 = fopen("res/Chess_Game.txt", "r");
     if (f1 == NULL) {
         Error_Text(1);
