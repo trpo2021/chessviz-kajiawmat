@@ -29,7 +29,7 @@ void Move_input(FILE * f1, char ch) {
     }
     if (move_input != (move / Players) + (move % Players)) {
         printf("\n--------------");
-        printf("\nНаписан ход %i", move_input);
+        printf("\nWrote move number %i", move_input);
         printf("\n--------------");
         system("pause");
         Error_Text(2);
@@ -131,23 +131,23 @@ void Roki_Read(FILE * f1, char ch) {
 }
 
 void Move_Write() {
-    printf("\nХод №%i за ", move / Players + move % Players);
+    printf("\nMove %i for ", move / Players + move % Players);
     if (move % Players) {
-        printf("белых: ");
+        printf("white: ");
     } else {
-        printf("чёрных: ");
+        printf("black: ");
     }
     if (letter_fig != 'P') {
         printf("%c", letter_fig);
     }
     printf("%c%c%c%c%c", gor_begin + Gor_min, ver_begin + Ver_min, typ_move, gor_end + Gor_min, ver_end + Ver_min);
     if ((typ_move == ':') || (typ_move == 'x')) {
-        printf("\nВзята фигура %c на поле %c%c", C[ver_end][gor_end], gor_end + Gor_min, ver_end + Ver_min);
+        printf("\nThe figure %c on the cage %c%c is taken", C[ver_end][gor_end], gor_end + Gor_min, ver_end + Ver_min);
     } else {
         printf("\n");
     }
     if (transform) {
-        printf("\nПешка %c%c попала на поле %c%c и стала %c", gor_begin + Gor_min, ver_begin + Ver_min, gor_end + Gor_min, ver_end + Ver_min, transform);
+        printf("\nPawn %c%c hit the field %c%c and became %c", gor_begin + Gor_min, ver_begin + Ver_min, gor_end + Gor_min, ver_end + Ver_min, transform);
     } else {
         printf("\n");
     }
@@ -157,11 +157,11 @@ void Move_Write() {
 
 void Roki_Write() {
     int i = 0;
-    printf("\nХод №%i за ", move / Players + move % Players);
+    printf("\nMove %i for ", move / Players + move % Players);
     if (move % Players) {
-        printf("белых: ");
+        printf("white: ");
     } else {
-        printf("чёрных: ");
+        printf("black: ");
     }
     printf("O");
     while (i < typ_roki) {

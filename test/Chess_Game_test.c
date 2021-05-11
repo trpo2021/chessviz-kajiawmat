@@ -13,7 +13,7 @@ extern char letter_fig, typ_move, transform, last_cut;
 CTEST_SKIP(Game, Chess_Game_test) {
     Game_Init();
     FILE * ft;
-    ft = fopen("res//test_game//Chess_Game_test.txt", "r");
+    ft = fopen("res/test_game/Chess_Game_test.txt", "r");
     int flag = 0;
     Chess_Game(ft);
     if (ft == NULL) {

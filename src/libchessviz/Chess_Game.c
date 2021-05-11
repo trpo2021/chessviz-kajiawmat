@@ -47,7 +47,7 @@ void Chess_Game(FILE * f1) {
             move++;
         }
     }
-    printf("\n\nИгра окончена!!!\n");
+    printf("\n\nGame Over!!!\n");
     fclose(f1);
     f1 = NULL;
 }

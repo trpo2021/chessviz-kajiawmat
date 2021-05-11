@@ -14,9 +14,9 @@ SRC_DIR = src
 TEST_DIR = test
 THIRD_DIR = thirdparty
 
-APP_PATH = $(APP_NAME)
+APP_PATH = $(BIN_DIR)/$(APP_NAME)
 LIB_PATH = $(OBJ_DIR)/$(SRC_DIR)/$(LIB_NAME)/$(LIB_NAME).a
-TEST_PATH = $(TEST_NAME)
+TEST_PATH = $(BIN_DIR)/$(TEST_NAME)
 CTEST_PATH = $(THIRD_DIR)/ctest.h
 
 SRC_EXT = c
@@ -57,6 +57,6 @@ $(OBJ_DIR)/%.o: %.c
 
 .PHONY: clean
 clean:
-	$(RM) $(APP_PATH) $(LIB_PATH)
+	$(RM) $(APP_PATH) $(LIB_PATH) $(TEST_PATH)
 	find $(OBJ_DIR) -name '*.o' -exec $(RM) '{}' \;
 	find $(OBJ_DIR) -name '*.d' -exec $(RM) '{}' \;

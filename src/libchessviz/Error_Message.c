@@ -12,122 +12,122 @@ extern const int Players, Ver_min, Gor_min, Reg;
 
 
 void Error_Move() {
-    printf("\nСейчас ход №%i за ", move / Players + move % Players);
+    printf("\nNow move %i for ", move / Players + move % Players);
     if (move % Players) {
-        printf("белых, ");
+        printf("white, ");
     } else {
-        printf("чёрных, ");
+        printf("black, ");
     }
 }
 
 void Error_Text(int i) {
     system("CLS");
-    printf("Ошибка №%i\n", i);
+    printf("Error %i\n", i);
     switch (i) {
         case 1:
-            printf("К сожалению, открыть введённый вами файл, не предоставляется возможным.");
+            printf("Unfortunately, it is not possible to open the file you entered.");
             break;
 
         case 2:
-            printf("Номер хода указан не верно");
+            printf("The move number is incorrect");
             Error_Move();
             break;
 
         case 3:
             Error_Move();
-            printf("\nОшибка ввода данных хода.");
+            printf("\nInput Error of data move.");
             break;
 
         case 4:
             Move_Write();
-            printf("\nФигура не может походить на своё же поле.");
+            printf("\nA figure cannot move on her cage.");
             break;
 
         case 5:
             Move_Write();
-            printf("\nСейчас ход другого цвета, так что походите фигурой другого цвета.");
+            printf("\nNow the move is of a different color, so move figure of a different color.");
             break;
 
 
         case 6:
             Move_Write();
-            printf("На поле %c%c фигура %c не стоит.", gor_begin + Gor_min, ver_begin + Ver_min, letter_fig + Reg * ((move + 1) % Players));
+            printf("On cage %c%c figure %c not stay.", gor_begin + Gor_min, ver_begin + Ver_min, letter_fig + Reg * ((move + 1) % Players));
             break;
 
         case 7:
             Error_Move();
-            printf("Неправильна записана рокировка: многовато или маловато повторений символов \'-O\'.");
+            printf("Castling incorrectly written: too many or too few repeats of symbols \'-O\'.");
             break;
 
         case 8:
             Move_Write();
-            printf("\nФигура не может встать на занятое фигурой %c поле %c%c.", C[ver_end][gor_end], gor_end + Gor_min, ver_end + Ver_min);
+            printf("\nFigure cannot stand on a cage %c%c occupied by a figure %c", gor_end + Gor_min, ver_end + Ver_min,C[ver_end][gor_end]);
             break;
 
         case 9:
             Move_Write();
-            printf("\nФигура не может срубить фигуру %c на поле %c%c, так как они одного цвета.", C[ver_end][gor_end], gor_end + Gor_min, ver_end + Ver_min);
+            printf("\nFigure cannot cut figure %c on cage %c%c, because they are the same color", C[ver_end][gor_end], gor_end + Gor_min, ver_end + Ver_min);
             break;
 
         case 10:
             Move_Write();
-            printf("\nФигура не может срубить фигуру на поле %c%c, так как на этом поле нет фигуры.", gor_end + Gor_min, ver_end + Ver_min);
+            printf("\nFigure cannot cut figure on cage %c%c, because there is no figure on this cage.", gor_end + Gor_min, ver_end + Ver_min);
             break;
 
         case 11:
             Move_Write();
-            printf("Пешка на поле %c%c может идти только на 1 клетку вперёд, или на 2 клетки вперёд, если идёт с первоначальной позиции", gor_begin + Gor_min, ver_begin + Ver_min);
+            printf("Pawn on cage %c%c can move only on 1 cage ahead, or on 2 cage ahead, if it comes from the original position.", gor_begin + Gor_min, ver_begin + Ver_min);
             break;
 
         case 12:
             Move_Write();
-            printf("Пешка на поле %c%c может ходить только вдоль своей вертикали", gor_begin + Gor_min, ver_begin + Ver_min);
+            printf("Pawn on cage %c%c can only walk along her vertikal", gor_begin + Gor_min, ver_begin + Ver_min);
             break;
 
         case 13:
             Move_Write();
-            printf("Пешка на поле %c%c может рубить только вдоль диагонали на одну клетку перед собой", gor_begin + Gor_min, ver_begin + Ver_min);
+            printf("Pawn on cage %c%c can only cut along the diagonal one cage ahead", gor_begin + Gor_min, ver_begin + Ver_min);
             break;
 
         case 14:
             Move_Write();
-            printf("Пешка на поле %c%c может рубить фигуры только на соседних вертикалях", gor_begin + Gor_min, ver_begin + Ver_min);
+            printf("Pawn on cage %c%c can cut a figure only on adjacent vertikal", gor_begin + Gor_min, ver_begin + Ver_min);
             break;
 
         case 15:
             Move_Write();
-            printf("Фигура %c не может перешагивать через фигуру", letter_fig);
+            printf("Figure %c cannot step over a figure", letter_fig);
             break;
 
         case 16:
             Move_Write();
-            printf("Фигура %c с поля %c%c не может пойти на поле %c%c.", letter_fig, gor_begin + Gor_min, ver_begin + Ver_min, gor_end + Gor_min, ver_end + Ver_min);
+            printf("Figure %c from cage %c%c can't move on cage %c%c.", letter_fig, gor_begin + Gor_min, ver_begin + Ver_min, gor_end + Gor_min, ver_end + Ver_min);
             break;
 
         case 17:
             Roki_Write();
-            printf("\nКороль или рокирующаяся ладья уже ходили в этой партии.");
+            printf("\nThe King or the rook that castles has already moved in this game.");
             break;
 
         case 18:
             Roki_Write();
-            printf("\nРокирующаяся ладья уже ходила в этой партии.");
+            printf("\nThe rook that castles has already moved in this game.");
             break;
 
         case 19:
             Move_Write();
-            printf("Новый массив символов фигур точно был изменён.");
+            printf("The character array has definitely been changed.");
             break;
 
         case 20:
             Move_Write();
-            printf("Нормально не указано в какую фигуру превращается пешка, когда встаёт на поле %c%c.", gor_end + Gor_min, ver_end + Ver_min);
+            printf("It is not normally written which figure the pawn turns into, when it moves to the cage %c%c.", gor_end + Gor_min, ver_end + Ver_min);
             break;
 
         default:
-            printf("Я не знаю данной ошибки");
+            printf("I don't know this Error");
     }
-    printf("\nИсправьте ошибку и попробуйте снова!\n");
+    printf("\nCorrect the error and try again!\n");
     if (i != 1) {
         Board();
     }

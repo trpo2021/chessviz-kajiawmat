@@ -26,7 +26,7 @@ CTEST(Moving, Moving_test) {
     int flag, i;
     char ch;
     FILE * ft;
-    ft = fopen("res//test_game//Moving_test.txt", "r");
+    ft = fopen("res/test_game/Moving_test.txt", "r");
     if (ft == NULL) {
         CTEST_ERR("FILE is not open. Please repair and try again!!!");
         ASSERT_FAIL();

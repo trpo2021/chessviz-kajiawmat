@@ -17,7 +17,7 @@ extern const char Type_figure[];
 
 CTEST(Ignore, Search_Read_test) {
     FILE * ft;
-    ft = fopen("res//test_game//Ignore_test.txt", "r");
+    ft = fopen("res/test_game/Ignore_test.txt", "r");
     if (ft == NULL) {
         CTEST_ERR("FILE is not open. Please repair and try again!!!");
         ASSERT_FAIL();
@@ -39,7 +39,7 @@ CTEST(Ignore, Search_Read_test) {
 
 CTEST(Read_number, Move_input_test) {
     FILE * ft;
-    ft = fopen("res//test_game//Number_test.txt", "r");
+    ft = fopen("res/test_game/Number_test.txt", "r");
     if (ft == NULL) {
         CTEST_ERR("FILE is not open. Please repair and try again!!!");
         ASSERT_FAIL();
@@ -56,7 +56,7 @@ CTEST(Read_number, Move_input_test) {
 
 CTEST(Read_Move, Move_Read_test) {
     FILE * ft;
-    ft = fopen("res//test_game//Move_test.txt", "r");
+    ft = fopen("res/test_game/Move_test.txt", "r");
     if (ft == NULL) {
         CTEST_ERR("FILE is not open. Please repair and try again!!!");
         ASSERT_FAIL();
@@ -99,7 +99,7 @@ CTEST(Read_Move, Move_Read_test) {
 
 CTEST(Read_Rokirovka, Roki_Read_test) {
     FILE * ft;
-    ft = fopen("res//test_game//Rokirovka_test.txt", "r");
+    ft = fopen("res/test_game/Rokirovka_test.txt", "r");
     if (ft == NULL) {
         CTEST_ERR("FILE is not open. Please repair and try again!!!");
         ASSERT_FAIL();
