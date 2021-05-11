@@ -12,7 +12,6 @@ CTEST(open_file, test1) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
 
 CTEST(open_file, test2) {
@@ -22,7 +21,6 @@ CTEST(open_file, test2) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
 
 CTEST(open_file, test3) {
@@ -32,7 +30,6 @@ CTEST(open_file, test3) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
 
 CTEST(open_file, test4) {
@@ -42,7 +39,6 @@ CTEST(open_file, test4) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
 
 CTEST(open_file, test5) {
@@ -52,7 +48,6 @@ CTEST(open_file, test5) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
 
 CTEST(open_file, test6) {
@@ -62,7 +57,6 @@ CTEST(open_file, test6) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
 
 CTEST(open_file, test7) {
@@ -72,5 +66,4 @@ CTEST(open_file, test7) {
     if (ft != NULL) open = 1;
     ASSERT_EQUAL(1, open);
     fclose(ft);
-    ft = NULL;
 }
