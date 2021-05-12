@@ -1,8 +1,8 @@
-#include "ctest.h"
 
-#include<stdlib.h>
 
 #include<stdio.h>
+
+#include "ctest.h"
 
 
 CTEST(open_file, test1) {
