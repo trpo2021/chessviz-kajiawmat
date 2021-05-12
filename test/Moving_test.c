@@ -1,6 +1,6 @@
-#include<stdlib.h>
+#include <stdlib.h>
 
-#include<stdio.h>
+#include <stdio.h>
 
 #include "ctest.h"
 
@@ -16,8 +16,8 @@ extern int move, gor_begin, ver_begin, gor_end, ver_end, typ_roki, move_rook[];
 extern char letter_fig, typ_move, transform, last_cut, C[][9];
 extern const int Players, Reg;
 
-
-CTEST(Moving, Moving_test) {
+CTEST(Moving, Moving_test)
+{
     Game_Init();
     Board_NULL();
     C[1][5] = 'R';
@@ -25,7 +25,7 @@ CTEST(Moving, Moving_test) {
     C[2][3] = 'Q';
     int flag, i;
     char ch;
-    FILE * ft;
+    FILE* ft;
     ft = fopen("res/test_game/Moving_test.txt", "r");
     if (ft == NULL) {
         CTEST_ERR("FILE is not open. Please repair and try again!!!");
@@ -36,7 +36,9 @@ CTEST(Moving, Moving_test) {
         ch = getc(ft);
         Move_Read(ft, ch);
         Moving();
-        if (C[ver_begin][gor_begin] == ' ' && C[ver_end][gor_end] == letter_fig + Reg * ((move + 1) % Players)) {
+        if (C[ver_begin][gor_begin] == ' '
+            && C[ver_end][gor_end]
+                    == letter_fig + Reg * ((move + 1) % Players)) {
             flag = 1;
         }
         ASSERT_EQUAL(1, flag);
@@ -44,8 +46,8 @@ CTEST(Moving, Moving_test) {
     }
 }
 
-
-CTEST(Move_Pawn, Move_Pawn_test) {
+CTEST(Move_Pawn, Move_Pawn_test)
+{
     Game_Init();
     Board_NULL();
     letter_fig = 'P';
@@ -77,18 +79,16 @@ CTEST(Move_Pawn, Move_Pawn_test) {
     }
 }
 
-
-
-
-CTEST(Move_figure, Move_Rook_test) {
+CTEST(Move_figure, Move_Rook_test)
+{
     Game_Init();
     Board_NULL();
     int i;
     move = 2;
     int const num_move = 4;
-    int Move_gor[4] = {-5, 0, 2, 0 };
-    int Move_ver[4] = { 0, 3, 0, -1 };
-    char Move_typ[4] = { '-', '-', '-', ':' };
+    int Move_gor[4] = {-5, 0, 2, 0};
+    int Move_ver[4] = {0, 3, 0, -1};
+    char Move_typ[4] = {'-', '-', '-', ':'};
     letter_fig = 'R';
     gor_begin = 6;
     ver_begin = 5;
@@ -98,7 +98,8 @@ CTEST(Move_figure, Move_Rook_test) {
         gor_end = gor_begin + Move_gor[i];
         typ_move = Move_typ[i];
         if ((typ_move == ':') || (typ_move == 'x')) {
-            C[ver_end][gor_end] = letter_fig + Reg - Reg * ((move + 1) % Players);
+            C[ver_end][gor_end]
+                    = letter_fig + Reg - Reg * ((move + 1) % Players);
         }
         Move_Rook();
         ASSERT_EQUAL(1, 1);
@@ -107,15 +108,16 @@ CTEST(Move_figure, Move_Rook_test) {
     }
 }
 
-CTEST(Move_figure, Move_Knight_test) {
+CTEST(Move_figure, Move_Knight_test)
+{
     Game_Init();
     Board_NULL();
     int i;
     move = 1;
     int const num_move = 8;
-    int Move_gor[8] = { 2, -2, 1, 1, -2, 2, -1, -1 };
-    int Move_ver[8] = { 1, 1, -2, 2, -1, -1, 2, -2 };
-    char Move_typ[8] = { '-', '-', 'x', ':', '-', ':', '-', '-' };
+    int Move_gor[8] = {2, -2, 1, 1, -2, 2, -1, -1};
+    int Move_ver[8] = {1, 1, -2, 2, -1, -1, 2, -2};
+    char Move_typ[8] = {'-', '-', 'x', ':', '-', ':', '-', '-'};
     letter_fig = 'N';
     gor_begin = 3;
     ver_begin = 4;
@@ -125,7 +127,8 @@ CTEST(Move_figure, Move_Knight_test) {
         gor_end = gor_begin + Move_gor[i];
         typ_move = Move_typ[i];
         if ((typ_move == ':') || (typ_move == 'x')) {
-            C[ver_end][gor_end] = letter_fig + Reg - Reg * ((move + 1) % Players);
+            C[ver_end][gor_end]
+                    = letter_fig + Reg - Reg * ((move + 1) % Players);
         }
         Move_Knight();
         ASSERT_EQUAL(1, 1);
@@ -134,15 +137,16 @@ CTEST(Move_figure, Move_Knight_test) {
     }
 }
 
-CTEST(Move_figure, Move_Bishop_test) {
+CTEST(Move_figure, Move_Bishop_test)
+{
     Game_Init();
     Board_NULL();
     int i;
     move = 1;
     int const num_move = 4;
-    int Move_gor[4] = { 4, 2, -3, -1 };
-    int Move_ver[4] = {-4, 2, 3, -1 };
-    char Move_typ[4] = { '-', '-', '-', ':' };
+    int Move_gor[4] = {4, 2, -3, -1};
+    int Move_ver[4] = {-4, 2, 3, -1};
+    char Move_typ[4] = {'-', '-', '-', ':'};
     letter_fig = 'B';
     gor_begin = 2;
     ver_begin = 6;
@@ -152,7 +156,8 @@ CTEST(Move_figure, Move_Bishop_test) {
         gor_end = gor_begin + Move_gor[i];
         typ_move = Move_typ[i];
         if ((typ_move == ':') || (typ_move == 'x')) {
-            C[ver_end][gor_end] = letter_fig + Reg - Reg * ((move + 1) % Players);
+            C[ver_end][gor_end]
+                    = letter_fig + Reg - Reg * ((move + 1) % Players);
         }
         Move_Bishop();
         ASSERT_EQUAL(1, 1);
@@ -161,15 +166,16 @@ CTEST(Move_figure, Move_Bishop_test) {
     }
 }
 
-CTEST(Move_figure, Move_Queen_test) {
+CTEST(Move_figure, Move_Queen_test)
+{
     Game_Init();
     Board_NULL();
     int i;
     move = 2;
     int const num_move = 8;
-    int Move_gor[8] = {-3, 0, 3, -3, 3, 0, -3, 3 };
-    int Move_ver[8] = { 0, 3, 0, -3, 3, -3, 3, -3 };
-    char Move_typ[8] = { 'x', ':', 'x', '-', '-', '-', '-', '-' };
+    int Move_gor[8] = {-3, 0, 3, -3, 3, 0, -3, 3};
+    int Move_ver[8] = {0, 3, 0, -3, 3, -3, 3, -3};
+    char Move_typ[8] = {'x', ':', 'x', '-', '-', '-', '-', '-'};
     letter_fig = 'Q';
     gor_begin = 5;
     ver_begin = 2;
@@ -179,7 +185,8 @@ CTEST(Move_figure, Move_Queen_test) {
         gor_end = gor_begin + Move_gor[i];
         typ_move = Move_typ[i];
         if ((typ_move == ':') || (typ_move == 'x')) {
-            C[ver_end][gor_end] = letter_fig + Reg - Reg * ((move + 1) % Players);
+            C[ver_end][gor_end]
+                    = letter_fig + Reg - Reg * ((move + 1) % Players);
         }
         Move_Queen();
         ASSERT_EQUAL(1, 1);
@@ -188,15 +195,16 @@ CTEST(Move_figure, Move_Queen_test) {
     }
 }
 
-CTEST(Move_figure, Move_King_test) {
+CTEST(Move_figure, Move_King_test)
+{
     Game_Init();
     Board_NULL();
     int i;
     move = 1;
     int const num_move = 8;
-    int Move_gor[8] = { 0, -1, -1, -1, 0, 1, 1, 1 };
-    int Move_ver[8] = {-1, -1, 0, 1, 1, 1, 0, -1 };
-    char Move_typ[8] = { '-', ':', '-', '-', 'x', '-', '-', '-' };
+    int Move_gor[8] = {0, -1, -1, -1, 0, 1, 1, 1};
+    int Move_ver[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+    char Move_typ[8] = {'-', ':', '-', '-', 'x', '-', '-', '-'};
     letter_fig = 'K';
     gor_begin = 5;
     ver_begin = 5;
@@ -206,7 +214,8 @@ CTEST(Move_figure, Move_King_test) {
         gor_end = gor_begin + Move_gor[i];
         typ_move = Move_typ[i];
         if ((typ_move == ':') || (typ_move == 'x')) {
-            C[ver_end][gor_end] = letter_fig + Reg - Reg * ((move + 1) % Players);
+            C[ver_end][gor_end]
+                    = letter_fig + Reg - Reg * ((move + 1) % Players);
         }
         Move_King();
         ASSERT_EQUAL(1, 1);
@@ -215,8 +224,8 @@ CTEST(Move_figure, Move_King_test) {
     }
 }
 
-
-CTEST(Rokirovka, Rokirovka_test) {
+CTEST(Rokirovka, Rokirovka_test)
+{
     Board_NULL();
     Game_Init();
     C[1][1] = 'R';

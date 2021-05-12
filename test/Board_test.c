@@ -1,6 +1,6 @@
-#include<stdlib.h>
+#include <stdlib.h>
 
-#include<stdio.h>
+#include <stdio.h>
 
 #include <ctest.h>
 
@@ -9,7 +9,8 @@
 extern char Type_figure[], C[][9];
 extern const int Ver_min, Gor_min, Reg;
 
-CTEST(Board, test_Init_1) {
+CTEST(Board, test_Init_1)
+{
     Board_Init();
     int i;
     for (i = 1; i <= 8; i++) {
@@ -18,7 +19,8 @@ CTEST(Board, test_Init_1) {
     }
 }
 
-CTEST(Board, test_Init_2) {
+CTEST(Board, test_Init_2)
+{
     Board_Init();
     int i, j;
     for (i = 1; i <= 8; i++) {
@@ -28,7 +30,8 @@ CTEST(Board, test_Init_2) {
     }
 }
 
-CTEST(Board, test_Init_3) {
+CTEST(Board, test_Init_3)
+{
     Board_Init();
     int i;
     for (i = 1; i <= 8; i++) {
@@ -41,7 +44,8 @@ CTEST(Board, test_Init_3) {
     ASSERT_NOT_EQUAL('p', C[7][2]);
 }
 
-CTEST(Board, test_Init_4) {
+CTEST(Board, test_Init_4)
+{
     Board_Init();
     int j;
     for (j = 1; j <= 5; j++) {
@@ -58,7 +62,8 @@ CTEST(Board, test_Init_4) {
     ASSERT_NOT_EQUAL(Type_figure[9 - 6] + Reg, C[8][6]);
 }
 
-CTEST(Board, test_Null_1) {
+CTEST(Board, test_Null_1)
+{
     Board_NULL();
     int i, j;
     for (i = 1; i <= 8; i++) {
@@ -68,7 +73,8 @@ CTEST(Board, test_Null_1) {
     }
 }
 
-CTEST(Board, test_NULL_2) {
+CTEST(Board, test_NULL_2)
+{
     Board_Init();
     int i;
     for (i = 1; i <= 8; i++) {

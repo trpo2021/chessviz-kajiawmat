@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include <stdlib.h>
 
 #include "Error_Message.h"
 
@@ -7,15 +7,16 @@ extern char letter_fig, typ_move, C[][9], last_cut;
 extern const char Type_figure[], Sym_Ignore[];
 extern const int Players, Ver_min, Gor_min, Reg;
 
-
-int Module(int x) {
+int Module(int x)
+{
     if (x < 0) {
         x = -x;
     }
     return x;
 }
 
-int Check_Getc(char ch) {
+int Check_Getc(char ch)
+{
     int i;
     for (i = 0; i < 11; i++) {
         if (ch == Sym_Ignore[i]) {
@@ -25,7 +26,8 @@ int Check_Getc(char ch) {
     return 1;
 }
 
-int Check_Massive(char ch) {
+int Check_Massive(char ch)
+{
     int i;
     for (i = 0; i < 6; i++) {
         if (ch == Type_figure[i]) {
@@ -35,39 +37,51 @@ int Check_Massive(char ch) {
     return 0;
 }
 
-int Check_Gor(char ch) {
-    if (ch >= (Gor_min + 1) && ch <= (Gor_min + 8)) return 1;
+int Check_Gor(char ch)
+{
+    if (ch >= (Gor_min + 1) && ch <= (Gor_min + 8))
+        return 1;
     return 0;
 }
 
-int Check_Ver(char ch) {
-    if (ch >= (Ver_min + 1) && ch <= (Ver_min + 8)) return 1;
+int Check_Ver(char ch)
+{
+    if (ch >= (Ver_min + 1) && ch <= (Ver_min + 8))
+        return 1;
     return 0;
 }
 
-int Check_Move_End() {
-    if ((gor_begin == gor_end) && (ver_begin == ver_end)) return 0;
+int Check_Move_End()
+{
+    if ((gor_begin == gor_end) && (ver_begin == ver_end))
+        return 0;
     return 1;
 }
 
-int Check_Move_Color() {
-    if (((move % Players == 1) + (C[ver_begin][gor_begin] <= Gor_min)) == 1) return 0;
+int Check_Move_Color()
+{
+    if (((move % Players == 1) + (C[ver_begin][gor_begin] <= Gor_min)) == 1)
+        return 0;
     return 1;
 }
 
-int Check_Move_Begin() {
-    if (C[ver_begin][gor_begin] == letter_fig + Reg * ((move + 1) % Players)) return 1;
+int Check_Move_Begin()
+{
+    if (C[ver_begin][gor_begin] == letter_fig + Reg * ((move + 1) % Players))
+        return 1;
     return 0;
 }
 
-int Check_Transform(char ch) {
+int Check_Transform(char ch)
+{
     if (Check_Massive(ch) && ch != Type_figure[0] && ch != Type_figure[5]) {
         return 1;
     }
     return 0;
 }
 
-int Attack_or_Not() {
+int Attack_or_Not()
+{
     if (typ_move == '-') {
         if (C[ver_end][gor_end] == ' ') {
             return 1;
@@ -77,7 +91,8 @@ int Attack_or_Not() {
     }
     if ((typ_move == ':') || (typ_move == 'x')) {
         if (C[ver_end][gor_end] != ' ') {
-            if (((move % Players == 1) + (C[ver_end][gor_end] <= Gor_min)) == 1) {
+            if (((move % Players == 1) + (C[ver_end][gor_end] <= Gor_min))
+                == 1) {
                 last_cut = C[ver_end][gor_end];
                 return 1;
             } else {
@@ -90,7 +105,8 @@ int Attack_or_Not() {
     return 0;
 }
 
-int Check_Pawn() {
+int Check_Pawn()
+{
     int distance = -1 + 2 * (move % Players);
     int dif_ver = ver_end - ver_begin;
     if (typ_move == '-') {
@@ -107,7 +123,8 @@ int Check_Pawn() {
             return 12;
         }
     }
-    if (((typ_move == ':') || (typ_move == 'x')) && (Module(gor_begin - gor_end) == 1)) {
+    if (((typ_move == ':') || (typ_move == 'x'))
+        && (Module(gor_begin - gor_end) == 1)) {
         if (dif_ver == distance) {
             return 1;
         } else {
@@ -118,35 +135,42 @@ int Check_Pawn() {
     }
 }
 
-int Check_Rook() {
+int Check_Rook()
+{
     if ((gor_begin == gor_end) || (ver_begin == ver_end)) {
         return 1;
     }
     return 0;
 }
 
-int Check_Knight() {
-    if ((Module(ver_end - ver_begin) + Module(gor_end - gor_begin) == 3) && (ver_end != ver_begin) && (gor_end != gor_begin)) {
+int Check_Knight()
+{
+    if ((Module(ver_end - ver_begin) + Module(gor_end - gor_begin) == 3)
+        && (ver_end != ver_begin) && (gor_end != gor_begin)) {
         return 1;
     }
     return 0;
 }
 
-int Check_Bishop() {
+int Check_Bishop()
+{
     if (Module(ver_end - ver_begin) == Module(gor_end - gor_begin)) {
         return 1;
     }
     return 0;
 }
 
-int Check_King() {
-    if ((Module(ver_end - ver_begin) <= 1) && (Module(gor_end - gor_begin) <= 1)) {
+int Check_King()
+{
+    if ((Module(ver_end - ver_begin) <= 1)
+        && (Module(gor_end - gor_begin) <= 1)) {
         return 1;
     }
     return 0;
 }
 
-int Check_BNQ() {
+int Check_BNQ()
+{
     int i, j, dif_i = 0, dif_j = 0;
     i = ver_begin;
     j = gor_begin;
@@ -168,7 +192,8 @@ int Check_BNQ() {
     return 1;
 }
 
-int Check_Roki(int x) {
+int Check_Roki(int x)
+{
     if (move_rook[x]) {
         return 1;
     }
